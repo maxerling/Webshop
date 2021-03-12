@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,25 +19,22 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="index.html">Webshop</a>
         <div class="d-flex">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
-          
-          <li class="nav-item ms-2">
-            <button class="btn btn-primary"  type="button"><a class="link-white" href="order.html">Cart</a></button>
-          </li>
-        </ul>
-      </div>
-        
-        </form>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
 
-        
-        
-    </div>
+            <li class="nav-item ms-2">
+              <button class="btn btn-primary" type="button">
+                <a class="link-white" href="order.html">Cart</a>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
     <div class="container p-3 mt-5">
       <h3>Cart</h3>
@@ -54,66 +51,77 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row"><img src="" alt=""></th>
+            <th scope="row"><img src="" alt="" /></th>
             <td>Fjällräven</td>
-            <td>1</td>
+            <td>
+              <div class="number-input md-number-input">
+                <button class="btn btn-secondary">-</button>
+                <input
+                  class="quantity"
+                  min="1"
+                  name="quantity"
+                  value="1"
+                  type="number"
+                />
+                <button class="btn btn-secondary">+</button>
+              </div>
+            </td>
             <td>109.95$</td>
-            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg></td>
-          </tr>
-          <tr>
-            <th scope="row"><img src="" alt=""></th>
-            <td>Fjällräven</td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <th scope="row"><img src="" alt=""></th>
-            <td>John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet</td>
-            <td>1</td>
-            <td>109.04$</td>
-            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg></td>
+            <td>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-trash"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                />
+              </svg>
+            </td>
           </tr>
         </tbody>
-      </table> 
+      </table>
 
-
-    <div class="row">
-        <p class="fw-bold">Sum: </p>
-        <div class="col align-self-end"><button type="submit" class="btn btn-primary">Next</button></div></div>
+      <div class="row">
+        <p class="fw-bold">Sum:</p>
+        <div class="col align-self-end">
+          <button type="submit" class="btn btn-primary">Next</button>
+        </div>
+      </div>
     </div>
 
-
-<div class="container p-3 mt-5 order">
+    <div class="container p-3 mt-5 order">
       <h3>Order</h3>
-     
+
       <form>
         <fieldset disabled>
-        <div class="mb-3">
-          <label for="nameInput" class="form-label">Name</label>
-          <input type="text" class="form-control" id="nameInput">
-        </div>
-        <div class="mb-3">
+          <div class="mb-3">
+            <label for="nameInput" class="form-label">Name</label>
+            <input type="text" class="form-control" id="nameInput" />
+          </div>
+          <div class="mb-3">
             <label for="numberInput" class="form-label">Number</label>
-            <input type="tel" class="form-control" id="numberInput">
-        </div>
-        <div class="mb-3">
+            <input type="tel" class="form-control" id="numberInput" />
+          </div>
+          <div class="mb-3">
             <label for="emailInput" class="form-label">E-Mail</label>
-            <input type="email" class="form-control" id="emailInput">
+            <input type="email" class="form-control" id="emailInput" />
           </div>
           <div class="mb-3">
             <label for="addressInput" class="form-label">Address</label>
-            <input type="text" class="form-control" id="addressInput">
+            <input type="text" class="form-control" id="addressInput" />
           </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </fieldset>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
       </form>
-    
     </div>
 
     <script src="js/bootstrap.js"></script>

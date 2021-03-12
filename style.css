@@ -1,6 +1,16 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 img {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
 }
 
 .link-white {
@@ -14,4 +24,26 @@ img {
 
 .btn a {
   padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+td .bi {
+  cursor: pointer;
+}
+
+.quantity {
+  padding: 0px;
+  margin: 0px;
+  width: 2em;
+  height: 1.5em;
+}
+
+.number-input button {
+  width: 2em;
+  height: 2em;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
