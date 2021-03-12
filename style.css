@@ -1,0 +1,17 @@
+img {
+  width: 150px;
+  height: 150px;
+}
+
+.link-white {
+  color: white;
+  text-decoration: none;
+}
+
+.link-white:hover {
+  color: white;
+}
+
+.btn a {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
