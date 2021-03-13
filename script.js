@@ -33,47 +33,50 @@ const url = "https://fakestoreapi.com/products";
 
 fetch(url)
   .then((resp) => resp.json())
-  .then(function (data) {
-    let products = data;
-    console.log(products);
-    return products.map(function (products) {
-      let div = createNode("div");
-      addClass(div, "col-md-4");
-      addClass(div, "border");
-      let img = createNode("img");
-      let p1 = createNode("p");
-      let p2 = createNode("p");
-      let p3 = createNode("p");
-      let btn = createNode("button");
-      addClass(btn, "btn");
-      addClass(btn, "btn-primary");
-      addClass(btn, "btn-sm");
-      addClass(btn, "mt-2");
-      addClass(btn, "mb-2");
-      btn.innerHTML = "Buy or add";
-      btn.addEventListener(
-        "click",
-        addToCart(
-          products.image,
-          `${products.title}`,
-          `${products.price}`,
-          inCart
-        )
-      );
-
-      img.src = products.image;
-      addClass(img, "mt-3");
-      p1.innerHTML = `${products.title}`;
-      p2.innerHTML = `${products.description}`;
-      p3.innerHTML = `${products.price}$`;
-      append(div, img);
-      append(div, p1);
-      append(div, p2);
-      append(div, p3);
-      append(div, btn);
-      append(row, div);
-    });
-  })
+  .then(createDataToHTML)
   .catch(function (error) {
     console.log(error);
   });
+
+function createDataToHTML(data) {
+  let products = data;
+  console.log(products);
+  return products.map(function (products) {
+    let div = createNode("div");
+    addClass(div, "col-md-4");
+    addClass(div, "border");
+    let img = createNode("img");
+    let p1 = createNode("p");
+    let p2 = createNode("p");
+    p2.addClass
+    let p3 = createNode("p");
+    let btn = createNode("button");
+    addClass(btn, "btn");
+    addClass(btn, "btn-primary");
+    addClass(btn, "btn-sm");
+    addClass(btn, "mt-2");
+    addClass(btn, "mb-2");
+    btn.innerHTML = "Buy or add";
+    btn.addEventListener(
+      "click",
+      addToCart(
+        products.image,
+        `${products.title}`,
+        `${products.price}`,
+        inCart
+      )
+    );
+
+    img.src = products.image;
+    addClass(img, "mt-3");
+    p1.innerHTML = `${products.title}`;
+    p2.innerHTML = `${products.description}`;
+    p3.innerHTML = `${products.price}$`;
+    append(div, img);
+    append(div, p1);
+    append(div, p2);
+    append(div, p3);
+    append(div, btn);
+    append(row, div);
+  });
+}
