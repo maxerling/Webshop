@@ -1,25 +1,49 @@
 let inCart = new Array();
 
-function addToCart(productImg, productName, productPrice, cart) {
-  /* Kontrollera om produkten finns i quantity
-  ifall produkten finns så vill vi +1 in quantity
-  i exempelvis en lista/array som uppdateras
 
-  Annars så vill vi lägga till:
-  div class="row align-items-center">
-  div class="col-md-4">
-  img src="$productimg" alt="">
-  div class="col-md-4">$productName<>
-  div class="col-md-4">Quantity: 1<>  
-
-  sedan uppdatera array med nödvändig information
-
-  sist med inte minst så vill vi ta allas pris och kvanitet sedan plusa in det i en let sum-variabel
-  sum =+ (q*p)[0]...[n]
-
-  sedan uppdatera sum i korgen
-  
-  */
+function arrayToCart() {
+  const cartEl = document.getElementById("userCart");
+  console.log(cartEl);
+  let cartPrd = JSON.parse(localStorage.getItem("savedData"));
+  console.log(cartPrd);
+  for (let i = 0; i < cartPrd.length; i++) {
+    cartEl.innerHTML += `<tr>
+        <th scope="row"><img src="${cartPrd[i].img}" alt="image of ${cartPrd[i].prdName}" /></th>
+        <td>${cartPrd[i].prdName}</td>
+        <td>
+          <div class="number-input md-number-input">
+            <button class="btn btn-secondary">-</button>
+            <input
+              class="quantity"
+              min="1"
+              name="quantity"
+              value="${cartPrd[i].quantity}"
+              type="number"
+            />
+            <button class="btn btn-secondary">+</button>
+          </div>
+        </td>
+        <td>${cartPrd[i].prdPrice}$</td>
+        <td>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-trash"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+            />
+          </svg>
+        </td>
+      </tr>`;
+  }
 }
 
 let createNode = (element) => document.createElement(element);
@@ -31,16 +55,18 @@ let append = (parent, el) => parent.appendChild(el);
 const row = document.getElementById("products");
 const url = "https://fakestoreapi.com/products";
 
-fetch(url)
-  .then((resp) => resp.json())
-  .then(createDataToHTML)
-  .catch(function (error) {
-    console.log(error);
-  });
+function getData() {
+  fetch(url)
+    .then((resp) => resp.json())
+    .then(createDataToHTML)
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
 function createDataToHTML(data) {
   let products = data;
-  console.log(products);
+  console.log(data);
   return products.map(function (products) {
     let div = createNode("div");
     addClass(div, "col-md-4");
@@ -48,7 +74,6 @@ function createDataToHTML(data) {
     let img = createNode("img");
     let p1 = createNode("p");
     let p2 = createNode("p");
-    p2.addClass
     let p3 = createNode("p");
     let btn = createNode("button");
     addClass(btn, "btn");
@@ -57,15 +82,26 @@ function createDataToHTML(data) {
     addClass(btn, "mt-2");
     addClass(btn, "mb-2");
     btn.innerHTML = "Buy or add";
-    btn.addEventListener(
-      "click",
-      addToCart(
-        products.image,
-        `${products.title}`,
-        `${products.price}`,
-        inCart
-      )
-    );
+    btn.addEventListener("click", (e) => {
+      console.log(inCart);
+      console.log(!inCart.some((e) => e.id === products.id));
+      if (!inCart.some((e) => e.id === products.id)) {
+        let prd = {
+          id: products.id,
+          img: products.image,
+          prdName: products.title,
+          prdPrice: products.price,
+          quantity: 1,
+        };
+
+        inCart.push(prd);
+      } else {
+        let index = inCart.findIndex((e) => e.id === products.id);
+        inCart[index].quantity++;
+      }
+
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+    });
 
     img.src = products.image;
     addClass(img, "mt-3");
@@ -80,3 +116,5 @@ function createDataToHTML(data) {
     append(row, div);
   });
 }
+
+
