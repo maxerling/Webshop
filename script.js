@@ -1,11 +1,11 @@
 let inCart = new Array();
 
-
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   console.log(cartEl);
   let cartPrd = JSON.parse(localStorage.getItem("savedData"));
   console.log(cartPrd);
+  let sum = 0;
   for (let i = 0; i < cartPrd.length; i++) {
     cartEl.innerHTML += `<tr>
         <th scope="row"><img src="${cartPrd[i].img}" alt="image of ${cartPrd[i].prdName}" /></th>
@@ -43,7 +43,13 @@ function arrayToCart() {
           </svg>
         </td>
       </tr>`;
+
+    sum += cartPrd[i].prdPrice;
+    console.log(sum);
   }
+
+  const sumEl = document.getElementById("summary");
+  sumEl.innerHTML = `Sum: ${sum}$`;
 }
 
 let createNode = (element) => document.createElement(element);
@@ -81,7 +87,8 @@ function createDataToHTML(data) {
     addClass(btn, "btn-sm");
     addClass(btn, "mt-2");
     addClass(btn, "mb-2");
-    btn.innerHTML = "Buy or add";
+
+    btn.innerHTML = `<a href="order.html" class="link-white">Buy or add</a>`;
     btn.addEventListener("click", (e) => {
       console.log(inCart);
       console.log(!inCart.some((e) => e.id === products.id));
@@ -117,4 +124,4 @@ function createDataToHTML(data) {
   });
 }
 
-
+function removeFromCart() {}
