@@ -2,17 +2,15 @@ let inCart = new Array();
 
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
-  console.log(cartEl);
   inCart = JSON.parse(localStorage.getItem("savedData"));
-  console.log(inCart);
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
-    cartEl.innerHTML += `<tr>
+    cartEl.innerHTML += `<tr class="item">
         <th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
         <td>${inCart[i].prdName}</td>
         <td>
           <div class="number-input md-number-input">
-            <button id="minus" class="btn btn-secondary">-</button>
+            <button class="btn btn-secondary minus">-</button>
             <input
               class="quantity text-center"
               min="1"
@@ -20,11 +18,11 @@ function arrayToCart() {
               value="${inCart[i].quantity}"
               type="number"
             />
-            <button id="plus" class="btn btn-secondary">+</button>
+            <button class="btn btn-secondary plus">+</button>
           </div>
         </td>
         <td>${inCart[i].prdPrice}$</td>
-        <td>
+        <td class="bin">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -43,17 +41,58 @@ function arrayToCart() {
           </svg>
         </td>
       </tr>`;
-
-    sum += inCart[i].prdPrice * inCart[i].quantity;
   }
 
   const sumEl = document.getElementById("summary");
-  sumEl.innerHTML = `Sum: ${sum}$`;
 
-  const minusEl = document.getElementById("minus");
-  const plusEl = document.getElementById("plus");
+  let minusEl = document.getElementsByClassName("minus");
+  let plusEl = document.getElementsByClassName("plus");
+  let binEl = document.getElementsByClassName("bin");
 
-  console.log(minusEl);
+  for (let i = 0; i < minusEl.length; i++) {
+    minusEl[i].addEventListener("click", () => {
+      let field = minusEl[i].parentNode.querySelector("input[type=number]");
+      let currentValue = field.getAttribute("value");
+      if (currentValue > 1) {
+        field.setAttribute("value", Number(currentValue) - 1);
+        inCart[i].quantity = Number(currentValue) - 1;
+
+        localStorage.setItem("savedData", JSON.stringify(inCart));
+
+        sum = getSum();
+        sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+      }
+    });
+
+    plusEl[i].addEventListener("click", () => {
+      let field = plusEl[i].parentNode.querySelector("input[type=number]");
+      let currentValue = field.getAttribute("value");
+      field.setAttribute("value", Number(currentValue) + 1);
+      inCart[i].quantity = Number(currentValue) + 1;
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+
+      sum = getSum();
+      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+    });
+
+    binEl[i].addEventListener("click", () => {
+      let thEl = binEl[i].parentNode;
+      while (thEl.firstChild) {
+        console.log("test");
+        thEl.removeChild(thEl.lastChild);
+      }
+
+      inCart.splice(i);
+
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+
+      sum = getSum();
+      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+    });
+  }
+
+  sum = getSum();
+  sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
 }
 
 let createNode = (element) => document.createElement(element);
@@ -77,7 +116,6 @@ function getData() {
 function createDataToHTML(data) {
   inCart = JSON.parse(localStorage.getItem("savedData"));
   let products = data;
-  console.log(data);
   return products.map(function (products) {
     let div = createNode("div");
     addClass(div, "col-md-4");
@@ -95,8 +133,6 @@ function createDataToHTML(data) {
 
     btn.innerHTML = `<a href="order.html" class="link-white">Buy or add</a>`;
     btn.addEventListener("click", (e) => {
-      console.log(inCart);
-      console.log(!inCart.some((e) => e.id === products.id));
       if (!inCart.some((e) => e.id === products.id)) {
         let prd = {
           id: products.id,
@@ -130,6 +166,15 @@ function createDataToHTML(data) {
 }
 
 function removeFromCart() {}
+
+function getSum() {
+  inCart = JSON.parse(localStorage.getItem("savedData"));
+  let sum = 0;
+  for (let i = 0; i < inCart.length; i++) {
+    sum += inCart[i].prdPrice * inCart[i].quantity;
+  }
+  return sum;
+}
 
 function incrementQuantity() {}
 
