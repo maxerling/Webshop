@@ -3,27 +3,27 @@ let inCart = new Array();
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   console.log(cartEl);
-  let cartPrd = JSON.parse(localStorage.getItem("savedData"));
-  console.log(cartPrd);
+  inCart = JSON.parse(localStorage.getItem("savedData"));
+  console.log(inCart);
   let sum = 0;
-  for (let i = 0; i < cartPrd.length; i++) {
+  for (let i = 0; i < inCart.length; i++) {
     cartEl.innerHTML += `<tr>
-        <th scope="row"><img src="${cartPrd[i].img}" alt="image of ${cartPrd[i].prdName}" /></th>
-        <td>${cartPrd[i].prdName}</td>
+        <th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
+        <td>${inCart[i].prdName}</td>
         <td>
           <div class="number-input md-number-input">
-            <button class="btn btn-secondary">-</button>
+            <button id="minus" class="btn btn-secondary">-</button>
             <input
-              class="quantity"
+              class="quantity text-center"
               min="1"
               name="quantity"
-              value="${cartPrd[i].quantity}"
+              value="${inCart[i].quantity}"
               type="number"
             />
-            <button class="btn btn-secondary">+</button>
+            <button id="plus" class="btn btn-secondary">+</button>
           </div>
         </td>
-        <td>${cartPrd[i].prdPrice}$</td>
+        <td>${inCart[i].prdPrice}$</td>
         <td>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -44,12 +44,16 @@ function arrayToCart() {
         </td>
       </tr>`;
 
-    sum += cartPrd[i].prdPrice;
-    console.log(sum);
+    sum += inCart[i].prdPrice * inCart[i].quantity;
   }
 
   const sumEl = document.getElementById("summary");
   sumEl.innerHTML = `Sum: ${sum}$`;
+
+  const minusEl = document.getElementById("minus");
+  const plusEl = document.getElementById("plus");
+
+  console.log(minusEl);
 }
 
 let createNode = (element) => document.createElement(element);
@@ -71,6 +75,7 @@ function getData() {
 }
 
 function createDataToHTML(data) {
+  inCart = JSON.parse(localStorage.getItem("savedData"));
   let products = data;
   console.log(data);
   return products.map(function (products) {
@@ -125,3 +130,25 @@ function createDataToHTML(data) {
 }
 
 function removeFromCart() {}
+
+function incrementQuantity() {}
+
+function decreasteQuantity() {
+  const fieldEl = this.parentNode.querySelector("input[type=number]");
+  fieldEl.value -= 1;
+}
+
+/*
+Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
+Sum price !FIXED!
+
+removeFromCart()
+
+-- and ++ Cart, change sum value and update array
+
+Next stage Cart, enable fieldset
+
+Valdidate fields
+
+Confirmation message
+*/
