@@ -187,9 +187,9 @@ function decreasteQuantity() {
 Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
 Sum price !FIXED!
 
-removeFromCart()
+removeFromCart() !FIXED!
 
--- and ++ Cart, change sum value and update array
+-- and ++ Cart, change sum value and update array !FIXED!
 
 Next stage Cart, enable fieldset
 
