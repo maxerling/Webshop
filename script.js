@@ -53,12 +53,18 @@ function arrayToCart() {
   console.log(inCart);
   addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
 
-  let submitEl = document.getElementById("submit");
-  submitEl.addEventListener("click", () => {
+  const nextEl = document.getElementById("next");
+  nextEl.addEventListener("click", () => {
     if (inCart.length != 0) {
       statusEl.removeAttribute("disabled");
     }
   });
+
+  const submitEl = document.getElementById("submit");
+  submitEl.addEventListener("click", () => {
+    return validateForm();
+  });
+
   sum = getSum();
   sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
 }
@@ -196,8 +202,90 @@ function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
 }
 
 function validateForm() {
-  console.log("dd");
+  const nameField = document.getElementById("nameInput");
+  const numberField = document.getElementById("numberInput");
+  const emailField = document.getElementById("emailInput");
+  const addressField = document.getElementById("addressInput");
+
+  const nameRep = document.getElementById("nameResponse");
+  const numberRep = document.getElementById("numberResponse");
+  const emailRep = document.getElementById("emailResponse");
+  const addressRep = document.getElementById("addressResponse");
+
+  let txt;
+  /*
+  NAME
+    NOT EMPTY
+    ONLY LETTERS
+  NUMBER
+    NOT EMPTY
+    ONLY NUMBERS
+
+  EMAIL
+    NOT EMPTY
+    NEEDS @
+
+  ADDRESS
+    NOT EMPTY
+  
+  */
+  if (nameField.value === "") {
+    txt = "Required field!";
+    nameRep.innerHTML = txt;
+    nameField.setCustomValidity(txt);
+    nameField.reportValidity();
+  } else if (!nameCheck(nameField.value)) {
+    txt = "Only letters are allowed";
+    nameRep.innerHTML = txt;
+    nameField.setCustomValidity(txt);
+    nameField.reportValidity();
+  } else if (nameCheck(nameField.value)) {
+    nameRep.innerHTML = "";
+    nameField.setCustomValidity("");
+    nameField.reportValidity();
+  }
+
+  if (numberField.value === "") {
+    txt = "Required field!";
+    numberRep.innerHTML = txt;
+    numberField.setCustomValidity(txt);
+    numberField.reportValidity();
+  } else {
+    numberField.setCustomValidity("");
+    numberField.reportValidity();
+  }
+
+  if (emailField.value === "") {
+    txt = "Required field!";
+    emailRep.innerHTML = txt;
+    emailField.setCustomValidity(txt);
+    emailField.reportValidity();
+  } else {
+    emailField.setCustomValidity("");
+    emailField.reportValidity();
+  }
+
+  if (addressField.value === "") {
+    txt = "Required field!";
+    addressRep.innerHTML = txt;
+    addressField.setCustomValidity(txt);
+    addressField.reportValidity();
+  } else {
+    addressField.setCustomValidity("");
+    addressField.reportValidity();
+  }
 }
+
+function nameCheck(name) {
+  console.log(name.match(/^[a-zA-ZäöåÄÖÅ]+$/));
+  if (name.match(/^[a-zA-ZäöåÄÖÅ]+$/)) {
+    return true;
+  }
+
+  return false;
+}
+
+function numCheck(number) {}
 
 /*
 Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
@@ -211,8 +299,16 @@ Next stage Cart, enable fieldset !FIXED!
 Pressing cart options will disable fieldset !FIXED!
 
 adding procduct[n+1] and product[n] removing both when removing procduct[n+1] deletes both
-procduct[n+1] and product[n] -- product[n] works
+procduct[n+1] and product[n] -- product[n] works !FIXED!
+
+
 Valdidate fields
 
+
+
 Confirmation message
+
+
+
+fieldRespone, removed when fieldset is disabled
 */
