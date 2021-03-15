@@ -5,18 +5,18 @@ function arrayToCart() {
   inCart = JSON.parse(localStorage.getItem("savedData"));
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
-    cartEl.innerHTML += `<tr class="item">
-        <th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
+    cartEl.innerHTML += `<tr class="item"><th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
         <td>${inCart[i].prdName}</td>
         <td>
           <div class="number-input md-number-input">
             <button class="btn btn-secondary minus">-</button>
             <input
-              class="quantity text-center"
+              class="quantity text-center disabled noselect"
               min="1"
               name="quantity"
               value="${inCart[i].quantity}"
               type="number"
+              readonly 
             />
             <button class="btn btn-secondary plus">+</button>
           </div>
@@ -39,58 +39,26 @@ function arrayToCart() {
               d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
             />
           </svg>
-        </td>
-      </tr>`;
+        </td></tr>`;
   }
 
   const sumEl = document.getElementById("summary");
+  const minusEl = document.getElementsByClassName("minus");
+  const plusEl = document.getElementsByClassName("plus");
+  const binEl = document.getElementsByClassName("bin");
 
-  let minusEl = document.getElementsByClassName("minus");
-  let plusEl = document.getElementsByClassName("plus");
-  let binEl = document.getElementsByClassName("bin");
+  const statusEl = document.getElementById("status");
 
-  for (let i = 0; i < minusEl.length; i++) {
-    minusEl[i].addEventListener("click", () => {
-      let field = minusEl[i].parentNode.querySelector("input[type=number]");
-      let currentValue = field.getAttribute("value");
-      if (currentValue > 1) {
-        field.setAttribute("value", Number(currentValue) - 1);
-        inCart[i].quantity = Number(currentValue) - 1;
+  console.log(minusEl);
+  console.log(inCart);
+  addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
 
-        localStorage.setItem("savedData", JSON.stringify(inCart));
-
-        sum = getSum();
-        sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
-      }
-    });
-
-    plusEl[i].addEventListener("click", () => {
-      let field = plusEl[i].parentNode.querySelector("input[type=number]");
-      let currentValue = field.getAttribute("value");
-      field.setAttribute("value", Number(currentValue) + 1);
-      inCart[i].quantity = Number(currentValue) + 1;
-      localStorage.setItem("savedData", JSON.stringify(inCart));
-
-      sum = getSum();
-      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
-    });
-
-    binEl[i].addEventListener("click", () => {
-      let thEl = binEl[i].parentNode;
-      while (thEl.firstChild) {
-        console.log("test");
-        thEl.removeChild(thEl.lastChild);
-      }
-
-      inCart.splice(i);
-
-      localStorage.setItem("savedData", JSON.stringify(inCart));
-
-      sum = getSum();
-      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
-    });
-  }
-
+  let submitEl = document.getElementById("submit");
+  submitEl.addEventListener("click", () => {
+    if (inCart.length != 0) {
+      statusEl.removeAttribute("disabled");
+    }
+  });
   sum = getSum();
   sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
 }
@@ -115,6 +83,7 @@ function getData() {
 
 function createDataToHTML(data) {
   inCart = JSON.parse(localStorage.getItem("savedData"));
+  console.log(inCart);
   let products = data;
   return products.map(function (products) {
     let div = createNode("div");
@@ -183,6 +152,53 @@ function decreasteQuantity() {
   fieldEl.value -= 1;
 }
 
+function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
+  for (let i = 0; i < minusEl.length; i++) {
+    minusEl[i].addEventListener("click", () => {
+      statusEl.setAttribute("disabled", "disabled");
+      let field = minusEl[i].parentNode.querySelector("input[type=number]");
+      let currentValue = field.getAttribute("value");
+      if (currentValue > 1) {
+        field.setAttribute("value", Number(currentValue) - 1);
+        inCart[i].quantity = Number(currentValue) - 1;
+
+        localStorage.setItem("savedData", JSON.stringify(inCart));
+
+        sum = getSum();
+        sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+      }
+    });
+
+    plusEl[i].addEventListener("click", () => {
+      statusEl.setAttribute("disabled", "disabled");
+      let field = plusEl[i].parentNode.querySelector("input[type=number]");
+      let currentValue = field.getAttribute("value");
+      field.setAttribute("value", Number(currentValue) + 1);
+      inCart[i].quantity = Number(currentValue) + 1;
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+
+      sum = getSum();
+      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+    });
+
+    binEl[i].addEventListener("click", (e) => {
+      statusEl.setAttribute("disabled", "disabled");
+      let thEl = binEl[i].parentNode.parentNode;
+      thEl.innerHTML = "";
+      inCart.splice(i, 1);
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+
+      sum = getSum();
+      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+      arrayToCart();
+    });
+  }
+}
+
+function validateForm() {
+  console.log("dd");
+}
+
 /*
 Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
 Sum price !FIXED!
@@ -191,8 +207,11 @@ removeFromCart() !FIXED!
 
 -- and ++ Cart, change sum value and update array !FIXED!
 
-Next stage Cart, enable fieldset
+Next stage Cart, enable fieldset !FIXED!
+Pressing cart options will disable fieldset !FIXED!
 
+adding procduct[n+1] and product[n] removing both when removing procduct[n+1] deletes both
+procduct[n+1] and product[n] -- product[n] works
 Valdidate fields
 
 Confirmation message
