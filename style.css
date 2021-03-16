@@ -66,4 +66,6 @@ footer {
   color: red;
 }
 
-
+a {
+  outline: 0;
+}

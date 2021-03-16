@@ -1,6 +1,8 @@
+let inCart = new Array();
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   inCart = JSON.parse(localStorage.getItem("savedData"));
+  console.log(inCart);
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
     cartEl.innerHTML += `<tr class="item"><th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
@@ -47,8 +49,6 @@ function arrayToCart() {
 
   const statusEl = document.getElementById("status");
 
-  console.log(minusEl);
-  console.log(inCart);
   addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
 
   const nextEl = document.getElementById("next");
@@ -60,7 +60,14 @@ function arrayToCart() {
 
   const submitEl = document.getElementById("submit");
   submitEl.addEventListener("click", () => {
-    return validateForm();
+    if (validateForm()) {
+      inCart.splice(0);
+      console.log(inCart);
+      localStorage.setItem("savedData", JSON.stringify(inCart));
+      alert("Thanks for your order, have a great day!");
+    }
+
+    console.log("validate:false");
   });
 
   sum = getSum();
@@ -86,7 +93,6 @@ function getData() {
 }
 
 function createDataToHTML(data) {
-  let inCart = new Array();
   console.log(inCart);
 
   if (null != JSON.parse(localStorage.getItem("savedData"))) {
@@ -125,7 +131,6 @@ function createDataToHTML(data) {
         inCart[index].quantity++;
       }
 
-      console.log(inCart + " ddd");
       localStorage.setItem("savedData", JSON.stringify(inCart));
     });
 
@@ -205,10 +210,17 @@ function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
 }
 
 function validateForm() {
+  const fields = new Array();
+  let validator = 0;
+
   const nameField = document.getElementById("nameInput");
   const numberField = document.getElementById("numberInput");
   const emailField = document.getElementById("emailInput");
   const addressField = document.getElementById("addressInput");
+  fields.push(nameField);
+  fields.push(numberField);
+  fields.push(emailField);
+  fields.push(addressField);
 
   const nameRep = document.getElementById("nameResponse");
   const numberRep = document.getElementById("numberResponse");
@@ -216,22 +228,7 @@ function validateForm() {
   const addressRep = document.getElementById("addressResponse");
 
   let txt;
-  /*
-  NAME
-    NOT EMPTY
-    ONLY LETTERS
-  NUMBER
-    NOT EMPTY
-    ONLY NUMBERS
 
-  EMAIL
-    NOT EMPTY
-    NEEDS @
-
-  ADDRESS
-    NOT EMPTY
-  
-  */
   if (nameField.value === "") {
     txt = "Required field!";
     nameRep.innerHTML = txt;
@@ -246,6 +243,7 @@ function validateForm() {
     nameRep.innerHTML = "";
     nameField.setCustomValidity("");
     nameField.reportValidity();
+    validator++;
   }
 
   if (numberField.value === "") {
@@ -253,19 +251,32 @@ function validateForm() {
     numberRep.innerHTML = txt;
     numberField.setCustomValidity(txt);
     numberField.reportValidity();
-  } else {
+  } else if (!numCheck(numberField.value)) {
+    txt = "Only numbers are allowed";
+    numberRep.innerHTML = txt;
+    numberField.setCustomValidity(txt);
+    numberField.reportValidity();
+  } else if (numCheck(numberField.value)) {
+    numberRep.innerHTML = "";
     numberField.setCustomValidity("");
     numberField.reportValidity();
+    validator++;
   }
-
   if (emailField.value === "") {
     txt = "Required field!";
     emailRep.innerHTML = txt;
     emailField.setCustomValidity(txt);
     emailField.reportValidity();
-  } else {
+  } else if (!emailCheck(emailField.value)) {
+    txt = "Enter a valid email";
+    emailRep.innerHTML = txt;
+    emailField.setCustomValidity(txt);
+    emailField.reportValidity();
+  } else if (emailCheck(emailField.value)) {
+    emailRep.innerHTML = "";
     emailField.setCustomValidity("");
     emailField.reportValidity();
+    validator++;
   }
 
   if (addressField.value === "") {
@@ -274,13 +285,20 @@ function validateForm() {
     addressField.setCustomValidity(txt);
     addressField.reportValidity();
   } else {
+    addressRep.innerHTML = "";
     addressField.setCustomValidity("");
     addressField.reportValidity();
+    validator++;
   }
+
+  if (validator === fields.length) {
+    return true;
+  }
+
+  return false;
 }
 
 function nameCheck(name) {
-  console.log(name.match(/^[a-zA-ZäöåÄÖÅ]+$/));
   if (name.match(/^[a-zA-ZäöåÄÖÅ]+$/)) {
     return true;
   }
@@ -288,7 +306,20 @@ function nameCheck(name) {
   return false;
 }
 
-function numCheck(number) {}
+function numCheck(number) {
+  if (number.match(/^[0-9]+$/)) {
+    return true;
+  }
+
+  return false;
+}
+
+function emailCheck(email) {
+  if (email.match(/\S+@\S+\.\S+/)) {
+    return true;
+  }
+  return false;
+}
 
 /*
 Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
@@ -305,13 +336,9 @@ adding procduct[n+1] and product[n] removing both when removing procduct[n+1] de
 procduct[n+1] and product[n] -- product[n] works !FIXED!
 
 
-Valdidate fields
+Valdidate fields !FIXED!
 
-
-
-Confirmation message
-
-
+Confirmation message !FIXED!
 
 fieldRespone, removed when fieldset is disabled
 */
