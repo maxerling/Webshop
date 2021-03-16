@@ -65,6 +65,7 @@ function arrayToCart() {
       console.log(inCart);
       localStorage.setItem("savedData", JSON.stringify(inCart));
       alert("Thanks for your order, have a great day!");
+      window.location.href = "index.html";
     }
 
     console.log("validate:false");
