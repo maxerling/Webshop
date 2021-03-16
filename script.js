@@ -1,5 +1,3 @@
-let inCart = new Array();
-
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   inCart = JSON.parse(localStorage.getItem("savedData"));
@@ -88,8 +86,12 @@ function getData() {
 }
 
 function createDataToHTML(data) {
-  inCart = JSON.parse(localStorage.getItem("savedData"));
+  let inCart = new Array();
   console.log(inCart);
+
+  if (null != JSON.parse(localStorage.getItem("savedData"))) {
+    inCart = JSON.parse(localStorage.getItem("savedData"));
+  }
   let products = data;
   return products.map(function (products) {
     let div = createNode("div");
@@ -123,6 +125,7 @@ function createDataToHTML(data) {
         inCart[index].quantity++;
       }
 
+      console.log(inCart + " ddd");
       localStorage.setItem("savedData", JSON.stringify(inCart));
     });
 
