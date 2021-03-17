@@ -1,4 +1,10 @@
 let inCart = new Array();
+
+const cartBt = document.getElementById("cart");
+
+cartBt.addEventListener("click", function () {
+  window.location.href = "order.html";
+});
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   inCart = JSON.parse(localStorage.getItem("savedData"));
@@ -61,14 +67,10 @@ function arrayToCart() {
   const submitEl = document.getElementById("submit");
   submitEl.addEventListener("click", () => {
     if (validateForm()) {
-      inCart.splice(0);
-      console.log(inCart);
-      localStorage.setItem("savedData", JSON.stringify(inCart));
-      alert("Thanks for your order, have a great day!");
+      localStorage.clear();
+      alert("Thanks for your order!");
       window.location.href = "index.html";
     }
-
-    console.log("validate:false");
   });
 
   sum = getSum();
@@ -82,7 +84,7 @@ let addClass = (element, className) => element.classList.add(className);
 let append = (parent, el) => parent.appendChild(el);
 
 const row = document.getElementById("products");
-const url = "https://fakestoreapi.com/products";
+const url = "http://webacademy.se/fakestore/";
 
 function getData() {
   fetch(url)
@@ -160,24 +162,18 @@ function getSum() {
   return sum;
 }
 
-function incrementQuantity() {}
-
-function decreasteQuantity() {
-  const fieldEl = this.parentNode.querySelector("input[type=number]");
-  fieldEl.value -= 1;
-}
-
 function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
   for (let i = 0; i < minusEl.length; i++) {
     minusEl[i].addEventListener("click", () => {
-      statusEl.setAttribute("disabled", "disabled");
       let field = minusEl[i].parentNode.querySelector("input[type=number]");
       let currentValue = field.getAttribute("value");
-      if (currentValue > 1) {
+      if (Number(currentValue) - 1 > 0) {
+        statusEl.setAttribute("disabled", "disabled");
         field.setAttribute("value", Number(currentValue) - 1);
         inCart[i].quantity = Number(currentValue) - 1;
-
         localStorage.setItem("savedData", JSON.stringify(inCart));
+
+        clearInputValues();
 
         sum = getSum();
         sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
@@ -191,17 +187,19 @@ function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
       field.setAttribute("value", Number(currentValue) + 1);
       inCart[i].quantity = Number(currentValue) + 1;
       localStorage.setItem("savedData", JSON.stringify(inCart));
+      clearInputValues();
 
       sum = getSum();
       sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
     });
 
-    binEl[i].addEventListener("click", (e) => {
+    binEl[i].addEventListener("click", () => {
       statusEl.setAttribute("disabled", "disabled");
       let thEl = binEl[i].parentNode.parentNode;
       thEl.innerHTML = "";
       inCart.splice(i, 1);
       localStorage.setItem("savedData", JSON.stringify(inCart));
+      clearInputValues();
 
       sum = getSum();
       sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
@@ -322,6 +320,38 @@ function emailCheck(email) {
   return false;
 }
 
+function clearInputValues() {
+  const nameField = document.getElementById("nameInput");
+  const numberField = document.getElementById("numberInput");
+  const emailField = document.getElementById("emailInput");
+  const addressField = document.getElementById("addressInput");
+
+  const nameRep = document.getElementById("nameResponse");
+  const numberRep = document.getElementById("numberResponse");
+  const emailRep = document.getElementById("emailResponse");
+  const addressRep = document.getElementById("addressResponse");
+
+  nameField.value = "";
+  nameRep.innerHTML = "";
+  nameField.setCustomValidity("");
+  nameField.reportValidity();
+
+  numberField.value = "";
+  numberRep.innerHTML = "";
+  numberField.setCustomValidity("");
+  numberField.reportValidity();
+
+  emailField.value = "";
+  emailRep.innerHTML = "";
+  emailField.setCustomValidity("");
+  emailField.reportValidity();
+
+  addressField.value = "";
+  addressRep.innerHTML = "";
+  addressField.setCustomValidity("");
+  addressField.reportValidity();
+}
+
 /*
 Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
 Sum price !FIXED!
@@ -341,5 +371,5 @@ Valdidate fields !FIXED!
 
 Confirmation message !FIXED!
 
-fieldRespone, removed when fieldset is disabled
+fieldRespone, removed when fieldset is disabled !FIXED!
 */
