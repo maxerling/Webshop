@@ -1,11 +1,11 @@
-addEventToCartButton();
-addEventToBuyOrAddButton();
-
 let createNode = (element) => document.createElement(element);
 
 let addClass = (element, className) => element.classList.add(className);
 
 let append = (parent, el) => parent.appendChild(el);
+
+addEventToCartButton();
+addEventToBuyOrAddButton();
 
 function getData() {
   const url = "https://webacademy.se/fakestore/";
