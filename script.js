@@ -354,20 +354,27 @@ function emailCheck(email) {
 }
 
 function clearInputValues() {
-  const nameField = document.getElementById("nameInput");
+  const firstNameField = document.getElementById("firstNameInput");
+  const lastNameField = document.getElementById("lastNameInput");
   const numberField = document.getElementById("numberInput");
   const emailField = document.getElementById("emailInput");
   const addressField = document.getElementById("addressInput");
 
-  const nameRep = document.getElementById("nameResponse");
+  const firstNameRep = document.getElementById("firstNameResponse");
+  const lastNameRep = document.getElementById("lastNameResponse");
   const numberRep = document.getElementById("numberResponse");
   const emailRep = document.getElementById("emailResponse");
   const addressRep = document.getElementById("addressResponse");
 
-  nameField.value = "";
-  nameRep.innerHTML = "";
-  nameField.setCustomValidity("");
-  nameField.reportValidity();
+  firstNameField.value = "";
+  firstNameRep.innerHTML = "";
+  firstNameField.setCustomValidity("");
+  firstNameField.reportValidity();
+
+  lastNameField.value = "";
+  lastNameRep.innerHTML = "";
+  lastNameField.setCustomValidity("");
+  lastNameField.reportValidity();
 
   numberField.value = "";
   numberRep.innerHTML = "";
