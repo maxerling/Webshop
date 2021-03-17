@@ -103,7 +103,7 @@ let addClass = (element, className) => element.classList.add(className);
 let append = (parent, el) => parent.appendChild(el);
 
 const row = document.getElementById("products");
-const url = "http://webacademy.se/fakestore/";
+const url = "https://webacademy.se/fakestore/";
 
 function getSum() {
   inCart = JSON.parse(localStorage.getItem("savedData"));
