@@ -42,6 +42,7 @@ function createDataToHTML(data) {
     addEventToBuyOrAddButton(btn, inCart, products);
     const row = document.getElementById("products");
     img.src = products.image;
+    img.alt = `image of ${products.title}`;
     addClass(img, "mt-3");
     p1.innerHTML = `${products.title}`;
     p2.innerHTML = `${products.description}`;
