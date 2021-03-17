@@ -39,7 +39,7 @@ function createDataToHTML(data) {
     addClass(btn, "mt-2");
     addClass(btn, "mb-2");
 
-    addEventToBuyOrAddButton(btn, inCart);
+    addEventToBuyOrAddButton(btn, inCart, products);
     const row = document.getElementById("products");
     img.src = products.image;
     addClass(img, "mt-3");
@@ -55,7 +55,7 @@ function createDataToHTML(data) {
   });
 }
 
-function addEventToBuyOrAddButton(btn, inCart) {
+function addEventToBuyOrAddButton(btn, inCart, products) {
   btn.innerHTML = "Buy or add";
   btn.addEventListener("click", () => {
     if (!inCart.some((e) => e.id === products.id)) {
