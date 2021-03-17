@@ -1,17 +1,121 @@
-let inCart = new Array();
+addEventToCartButton();
 
-const cartBt = document.getElementById("cart");
+function getData() {
+  fetch(url)
+    .then((resp) => resp.json())
+    .then(createDataToHTML)
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
-cartBt.addEventListener("click", function () {
-  window.location.href = "order.html";
-});
+function createDataToHTML(data) {
+  let inCart = new Array();
+  console.log(inCart);
+
+  if (null != JSON.parse(localStorage.getItem("savedData"))) {
+    inCart = JSON.parse(localStorage.getItem("savedData"));
+  }
+  let products = data;
+  return products.map(function (products) {
+    let div = createNode("div");
+    addClass(div, "col-md-4");
+    addClass(div, "border");
+    let img = createNode("img");
+    let p1 = createNode("p");
+    let p2 = createNode("p");
+    let p3 = createNode("p");
+    let btn = createNode("button");
+    addClass(btn, "btn");
+    addClass(btn, "btn-primary");
+    addClass(btn, "btn-sm");
+    addClass(btn, "mt-2");
+    addClass(btn, "mb-2");
+
+    addEventToBuyOrAddButton(btn);
+
+    img.src = products.image;
+    addClass(img, "mt-3");
+    p1.innerHTML = `${products.title}`;
+    p2.innerHTML = `${products.description}`;
+    p3.innerHTML = `${products.price}$`;
+    append(div, img);
+    append(div, p1);
+    append(div, p2);
+    append(div, p3);
+    append(div, btn);
+    append(row, div);
+  });
+}
+
+function addEventToBuyOrAddButton(btn) {
+  btn.innerHTML = "Buy or add";
+  btn.addEventListener("click", () => {
+    if (!inCart.some((e) => e.id === products.id)) {
+      let prd = {
+        id: products.id,
+        img: products.image,
+        prdName: products.title,
+        prdPrice: products.price,
+        quantity: 1,
+      };
+
+      inCart.push(prd);
+    } else {
+      let index = inCart.findIndex((e) => e.id === products.id);
+      inCart[index].quantity++;
+    }
+
+    localStorage.setItem("savedData", JSON.stringify(inCart));
+    window.location.href = "order.html";
+  });
+}
+
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   inCart = JSON.parse(localStorage.getItem("savedData"));
   console.log(inCart);
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
-    cartEl.innerHTML += `<tr class="item"><th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
+    addCartElements(i, cartEl, inCart);
+  }
+
+  const sumEl = document.getElementById("summary");
+  const minusEl = document.getElementsByClassName("minus");
+  const plusEl = document.getElementsByClassName("plus");
+  const binEl = document.getElementsByClassName("bin");
+
+  const statusEl = document.getElementById("status");
+
+  addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
+
+  addEventToNextButton(statusEl);
+  addEventToSubmitButton();
+
+  sum = getSum();
+  sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
+}
+
+let createNode = (element) => document.createElement(element);
+
+let addClass = (element, className) => element.classList.add(className);
+
+let append = (parent, el) => parent.appendChild(el);
+
+const row = document.getElementById("products");
+const url = "http://webacademy.se/fakestore/";
+
+function getSum() {
+  inCart = JSON.parse(localStorage.getItem("savedData"));
+  let sum = 0;
+  for (let i = 0; i < inCart.length; i++) {
+    sum += inCart[i].prdPrice * inCart[i].quantity;
+  }
+  return sum;
+}
+
+function addCartElements(i, cartEl, inCart) {
+  cartEl.innerHTML += `<tr class="item"><th scope="row"><img src="${inCart[i].img}" alt="image of ${inCart[i].prdName}" /></th>
         <td>${inCart[i].prdName}</td>
         <td>
           <div class="number-input md-number-input">
@@ -46,24 +150,16 @@ function arrayToCart() {
             />
           </svg>
         </td></tr>`;
-  }
+}
 
-  const sumEl = document.getElementById("summary");
-  const minusEl = document.getElementsByClassName("minus");
-  const plusEl = document.getElementsByClassName("plus");
-  const binEl = document.getElementsByClassName("bin");
-
-  const statusEl = document.getElementById("status");
-
-  addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
-
-  const nextEl = document.getElementById("next");
-  nextEl.addEventListener("click", () => {
-    if (inCart.length != 0) {
-      statusEl.removeAttribute("disabled");
-    }
+function addEventToCartButton() {
+  const cartBt = document.getElementById("cart");
+  cartBt.addEventListener("click", function () {
+    window.location.href = "order.html";
   });
+}
 
+function addEventToSubmitButton() {
   const submitEl = document.getElementById("submit");
   submitEl.addEventListener("click", () => {
     if (validateForm()) {
@@ -72,94 +168,15 @@ function arrayToCart() {
       window.location.href = "index.html";
     }
   });
-
-  sum = getSum();
-  sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
 }
 
-let createNode = (element) => document.createElement(element);
-
-let addClass = (element, className) => element.classList.add(className);
-
-let append = (parent, el) => parent.appendChild(el);
-
-const row = document.getElementById("products");
-const url = "http://webacademy.se/fakestore/";
-
-function getData() {
-  fetch(url)
-    .then((resp) => resp.json())
-    .then(createDataToHTML)
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-
-function createDataToHTML(data) {
-  console.log(inCart);
-
-  if (null != JSON.parse(localStorage.getItem("savedData"))) {
-    inCart = JSON.parse(localStorage.getItem("savedData"));
-  }
-  let products = data;
-  return products.map(function (products) {
-    let div = createNode("div");
-    addClass(div, "col-md-4");
-    addClass(div, "border");
-    let img = createNode("img");
-    let p1 = createNode("p");
-    let p2 = createNode("p");
-    let p3 = createNode("p");
-    let btn = createNode("button");
-    addClass(btn, "btn");
-    addClass(btn, "btn-primary");
-    addClass(btn, "btn-sm");
-    addClass(btn, "mt-2");
-    addClass(btn, "mb-2");
-
-    btn.innerHTML = `<a href="order.html" class="link-white">Buy or add</a>`;
-    btn.addEventListener("click", (e) => {
-      if (!inCart.some((e) => e.id === products.id)) {
-        let prd = {
-          id: products.id,
-          img: products.image,
-          prdName: products.title,
-          prdPrice: products.price,
-          quantity: 1,
-        };
-
-        inCart.push(prd);
-      } else {
-        let index = inCart.findIndex((e) => e.id === products.id);
-        inCart[index].quantity++;
-      }
-
-      localStorage.setItem("savedData", JSON.stringify(inCart));
-    });
-
-    img.src = products.image;
-    addClass(img, "mt-3");
-    p1.innerHTML = `${products.title}`;
-    p2.innerHTML = `${products.description}`;
-    p3.innerHTML = `${products.price}$`;
-    append(div, img);
-    append(div, p1);
-    append(div, p2);
-    append(div, p3);
-    append(div, btn);
-    append(row, div);
+function addEventToNextButton(statusEl) {
+  const nextEl = document.getElementById("next");
+  nextEl.addEventListener("click", () => {
+    if (inCart.length != 0) {
+      statusEl.removeAttribute("disabled");
+    }
   });
-}
-
-function removeFromCart() {}
-
-function getSum() {
-  inCart = JSON.parse(localStorage.getItem("savedData"));
-  let sum = 0;
-  for (let i = 0; i < inCart.length; i++) {
-    sum += inCart[i].prdPrice * inCart[i].quantity;
-  }
-  return sum;
 }
 
 function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
@@ -172,7 +189,6 @@ function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
         field.setAttribute("value", Number(currentValue) - 1);
         inCart[i].quantity = Number(currentValue) - 1;
         localStorage.setItem("savedData", JSON.stringify(inCart));
-
         clearInputValues();
 
         sum = getSum();
@@ -351,25 +367,3 @@ function clearInputValues() {
   addressField.setCustomValidity("");
   addressField.reportValidity();
 }
-
-/*
-Prodcuts updates everytime you visit index, which makes it not possible to add more products !FIXED!
-Sum price !FIXED!
-
-removeFromCart() !FIXED!
-
--- and ++ Cart, change sum value and update array !FIXED!
-
-Next stage Cart, enable fieldset !FIXED!
-Pressing cart options will disable fieldset !FIXED!
-
-adding procduct[n+1] and product[n] removing both when removing procduct[n+1] deletes both
-procduct[n+1] and product[n] -- product[n] works !FIXED!
-
-
-Valdidate fields !FIXED!
-
-Confirmation message !FIXED!
-
-fieldRespone, removed when fieldset is disabled !FIXED!
-*/
