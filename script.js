@@ -82,7 +82,7 @@ function addEventToBuyOrAddButton(btn, inCart, products) {
 
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
-  inCart = JSON.parse(localStorage.getItem("savedData"));
+  let inCart = JSON.parse(localStorage.getItem("savedData"));
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
     addCartElements(i, cartEl, inCart);
@@ -95,7 +95,7 @@ function arrayToCart() {
 
   const statusEl = document.getElementById("status");
 
-  addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl);
+  addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl, inCart);
 
   addEventToNextButton(statusEl);
   addEventToSubmitButton();
@@ -178,7 +178,14 @@ function addEventToNextButton(statusEl) {
   });
 }
 
-function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
+function addEventToCartButtons(
+  minusEl,
+  plusEl,
+  binEl,
+  sumEl,
+  statusEl,
+  inCart
+) {
   for (let i = 0; i < minusEl.length; i++) {
     minusEl[i].addEventListener("click", () => {
       let field = minusEl[i].parentNode.querySelector("input[type=number]");
@@ -216,8 +223,6 @@ function addEventToCartButtons(minusEl, plusEl, binEl, sumEl, statusEl) {
       localStorage.setItem("savedData", JSON.stringify(inCart));
       clearInputValues();
 
-      sum = getSum();
-      sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
       arrayToCart();
     });
   }
