@@ -1,4 +1,5 @@
 addEventToCartButton();
+addEventToBuyOrAddButton();
 
 let createNode = (element) => document.createElement(element);
 
