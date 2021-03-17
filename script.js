@@ -1,6 +1,13 @@
 addEventToCartButton();
 
+let createNode = (element) => document.createElement(element);
+
+let addClass = (element, className) => element.classList.add(className);
+
+let append = (parent, el) => parent.appendChild(el);
+
 function getData() {
+  const url = "https://webacademy.se/fakestore/";
   fetch(url)
     .then((resp) => resp.json())
     .then(createDataToHTML)
@@ -10,6 +17,7 @@ function getData() {
 }
 
 function createDataToHTML(data) {
+  const row = document.getElementById("products");
   let inCart = new Array();
   console.log(inCart);
 
@@ -95,15 +103,6 @@ function arrayToCart() {
   sum = getSum();
   sumEl.innerHTML = `Sum: ${sum.toFixed(2)}$`;
 }
-
-let createNode = (element) => document.createElement(element);
-
-let addClass = (element, className) => element.classList.add(className);
-
-let append = (parent, el) => parent.appendChild(el);
-
-const row = document.getElementById("products");
-const url = "https://webacademy.se/fakestore/";
 
 function getSum() {
   inCart = JSON.parse(localStorage.getItem("savedData"));
