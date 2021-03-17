@@ -21,6 +21,8 @@ function createDataToHTML(data) {
 
   if (null != JSON.parse(localStorage.getItem("savedData"))) {
     inCart = JSON.parse(localStorage.getItem("savedData"));
+  } else {
+    localStorage.setItem("savedData", JSON.stringify(inCart));
   }
   let products = data;
   return products.map(function (products) {
@@ -160,8 +162,8 @@ function addEventToSubmitButton() {
   const submitEl = document.getElementById("submit");
   submitEl.addEventListener("click", () => {
     if (validateForm()) {
-      localStorage.clear();
       alert("Thanks for your order!");
+      localStorage.clear();
       window.location.href = "index.html";
     }
   });
