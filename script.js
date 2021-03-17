@@ -5,7 +5,6 @@ let addClass = (element, className) => element.classList.add(className);
 let append = (parent, el) => parent.appendChild(el);
 
 addEventToCartButton();
-addEventToBuyOrAddButton();
 
 function getData() {
   const url = "https://webacademy.se/fakestore/";
@@ -18,7 +17,6 @@ function getData() {
 }
 
 function createDataToHTML(data) {
-  const row = document.getElementById("products");
   let inCart = new Array();
   console.log(inCart);
 
@@ -41,8 +39,8 @@ function createDataToHTML(data) {
     addClass(btn, "mt-2");
     addClass(btn, "mb-2");
 
-    addEventToBuyOrAddButton(btn);
-
+    addEventToBuyOrAddButton(btn, inCart);
+    const row = document.getElementById("products");
     img.src = products.image;
     addClass(img, "mt-3");
     p1.innerHTML = `${products.title}`;
@@ -57,7 +55,7 @@ function createDataToHTML(data) {
   });
 }
 
-function addEventToBuyOrAddButton(btn) {
+function addEventToBuyOrAddButton(btn, inCart) {
   btn.innerHTML = "Buy or add";
   btn.addEventListener("click", () => {
     if (!inCart.some((e) => e.id === products.id)) {
