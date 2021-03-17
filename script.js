@@ -18,7 +18,6 @@ function getData() {
 
 function createDataToHTML(data) {
   let inCart = new Array();
-  console.log(inCart);
 
   if (null != JSON.parse(localStorage.getItem("savedData"))) {
     inCart = JSON.parse(localStorage.getItem("savedData"));
@@ -82,7 +81,6 @@ function addEventToBuyOrAddButton(btn, inCart, products) {
 function arrayToCart() {
   const cartEl = document.getElementById("userCart");
   inCart = JSON.parse(localStorage.getItem("savedData"));
-  console.log(inCart);
   let sum = 0;
   for (let i = 0; i < inCart.length; i++) {
     addCartElements(i, cartEl, inCart);
@@ -227,36 +225,56 @@ function validateForm() {
   const fields = new Array();
   let validator = 0;
 
-  const nameField = document.getElementById("nameInput");
+  const firstNameField = document.getElementById("firstNameInput");
+  const lastNameField = document.getElementById("lastNameInput");
   const numberField = document.getElementById("numberInput");
   const emailField = document.getElementById("emailInput");
   const addressField = document.getElementById("addressInput");
-  fields.push(nameField);
+  fields.push(firstNameField);
+  fields.push(lastNameField);
   fields.push(numberField);
   fields.push(emailField);
   fields.push(addressField);
 
-  const nameRep = document.getElementById("nameResponse");
+  const firstNameRep = document.getElementById("firstNameResponse");
+  const lastNameRep = document.getElementById("lastNameResponse");
   const numberRep = document.getElementById("numberResponse");
   const emailRep = document.getElementById("emailResponse");
   const addressRep = document.getElementById("addressResponse");
 
   let txt;
 
-  if (nameField.value === "") {
+  if (firstNameField.value === "") {
     txt = "Required field!";
-    nameRep.innerHTML = txt;
-    nameField.setCustomValidity(txt);
-    nameField.reportValidity();
+    firstNameRep.innerHTML = txt;
+    firstNameField.setCustomValidity(txt);
+    firstNameField.reportValidity();
   } else if (!nameCheck(nameField.value)) {
     txt = "Only letters are allowed";
-    nameRep.innerHTML = txt;
-    nameField.setCustomValidity(txt);
-    nameField.reportValidity();
+    firstNameRep.innerHTML = txt;
+    firstNameField.setCustomValidity(txt);
+    firstNameField.reportValidity();
   } else if (nameCheck(nameField.value)) {
-    nameRep.innerHTML = "";
-    nameField.setCustomValidity("");
-    nameField.reportValidity();
+    firstNameRep.innerHTML = "";
+    firstNameField.setCustomValidity("");
+    firstNameField.reportValidity();
+    validator++;
+  }
+
+  if (lastNameField.value === "") {
+    txt = "Required field!";
+    lastNameRep.innerHTML = txt;
+    lastNameField.setCustomValidity(txt);
+    lastNameField.reportValidity();
+  } else if (!nameCheck(nameField.value)) {
+    txt = "Only letters are allowed";
+    lastNameRep.innerHTML = txt;
+    lastNameField.setCustomValidity(txt);
+    lastNameField.reportValidity();
+  } else if (nameCheck(nameField.value)) {
+    lastNameRep.innerHTML = "";
+    lastNameField.setCustomValidity("");
+    lastNameField.reportValidity();
     validator++;
   }
 

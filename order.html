@@ -64,9 +64,14 @@
       <form>
         <fieldset id="status" disabled>
           <div class="mb-3">
-            <label for="nameInput" class="form-label">* Name</label>
-            <input type="text" class="form-control" id="nameInput"/>
-            <p id="nameResponse" class="invalid"></p>
+            <label for="firstNameInput" class="form-label">* First Name</label>
+            <input type="text" class="form-control" id="firstNameInput"/>
+            <p id="firstNameResponse" class="invalid"></p>
+          </div>
+          <div class="mb-3">
+            <label for="lastNameInput" class="form-label">* Last Name</label>
+            <input type="text" class="form-control" id="lastNameInput"/>
+            <p id="lastNameResponse" class="invalid"></p>
           </div>
           <div class="mb-3">
             <label for="numberInput" class="form-label">* Number</label>
@@ -84,7 +89,7 @@
             <p id="addressResponse"  class="invalid"></p>
           </div>
 
-          <button id="submit" type="button" class="btn btn-primary mb-5">Submit</button>
+          <button id="submit" type="submit" class="btn btn-primary mb-5">Submit</button>
         </fieldset>
       </form>
     </div>
