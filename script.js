@@ -249,12 +249,12 @@ function validateForm() {
     firstNameRep.innerHTML = txt;
     firstNameField.setCustomValidity(txt);
     firstNameField.reportValidity();
-  } else if (!nameCheck(nameField.value)) {
+  } else if (!nameCheck(firstNameField.value)) {
     txt = "Only letters are allowed";
     firstNameRep.innerHTML = txt;
     firstNameField.setCustomValidity(txt);
     firstNameField.reportValidity();
-  } else if (nameCheck(nameField.value)) {
+  } else if (nameCheck(firstNameField.value)) {
     firstNameRep.innerHTML = "";
     firstNameField.setCustomValidity("");
     firstNameField.reportValidity();
@@ -266,12 +266,12 @@ function validateForm() {
     lastNameRep.innerHTML = txt;
     lastNameField.setCustomValidity(txt);
     lastNameField.reportValidity();
-  } else if (!nameCheck(nameField.value)) {
+  } else if (!nameCheck(lastNameField.value)) {
     txt = "Only letters are allowed";
     lastNameRep.innerHTML = txt;
     lastNameField.setCustomValidity(txt);
     lastNameField.reportValidity();
-  } else if (nameCheck(nameField.value)) {
+  } else if (nameCheck(lastNameField.value)) {
     lastNameRep.innerHTML = "";
     lastNameField.setCustomValidity("");
     lastNameField.reportValidity();
